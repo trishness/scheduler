@@ -34,7 +34,7 @@ function todoText(x) {
      }
 }
 
-//to do list population from storage
+//to do list population from storage when clicked
 function populate() {
      storageArr = [];
 }
