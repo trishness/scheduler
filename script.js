@@ -2,7 +2,7 @@
 var strDate = moment().format("dddd, MMMM Do YYYY");
 var currentMilTime = parseInt(moment().format("HH"));
 var textAreas = $(".col-8")
-var buttons =$(".savBtn")
+var buttons = $(".savBtn")
 storageArr = JSON.parse(localStorage.getItem("user")) || [];
 
 //upon opening page
@@ -12,7 +12,7 @@ todoText(9);
 //checking time, comparing current time to schedule time slots
 function pageLoad() {
      $("#currentDay").append(strDate);
-     for(let i=9; i<=17; i++){
+     for (let i = 9; i <= 17; i++) {
           checkTime([i]);
      }
      function checkTime(x) {
@@ -28,7 +28,7 @@ function pageLoad() {
 
 //to do list storage
 function todoText(x) {
-     for (let i=0; i<storageArr.length; i++) {
+     for (let i = 0; i < storageArr.length; i++) {
           $("#" + x + "time").text(storageArr[i]);
           x++;
      }
@@ -36,15 +36,16 @@ function todoText(x) {
 
 //to do list population from storage
 function populate() {
-     storageArr=[];
+     storageArr = [];
 }
 
-$("button").click(function() {
+$("button").click(function () {
      populate();
-     for (let i=0; i< ($("textarea").length); i++) {
+     for (let i = 0; i < ($("textarea").length); i++) {
           storageArr.push($("textarea")[i].value);
      }
      localStorage.setItem("user", JSON.stringify(storageArr))
+     var textToSave= $(`.text${$(this).attr("id")}`).val()
 })
 
 
