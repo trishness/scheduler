@@ -1,66 +1,52 @@
-var d = new Date();
+
 var strDate = moment().format("dddd, MMMM Do YYYY");
-$("#currentDay").append(strDate);
-
-
-//textArea1=$("#9am")
-//textArea2=$("#10am")
-//textArea3=$("#11am")
-//textArea4=$("#12pm")
-//textArea5=$("#1pm")
-//textArea6=$("#2pm")
-//textArea7=$("#3pm")
-//textArea8=$("#4pm")
-//textArea9=$("#5pm")
-currentTime=moment().format("ha");
-console.log(currentTime);
-
-
-console.log(moment().format("ha"));
-
+var currentMilTime = parseInt(moment().format("HH"));
 var textAreas = $(".col-8")
-console.log(textAreas)
-
 var buttons =$(".savBtn")
-console.log(buttons)
+storageArr = JSON.parse(localStorage.getItem("user")) || [];
 
+//upon opening page
+pageLoad();
+todoText(9);
 
-//loop for checking time and displaying textArea color
-for (i=0; i<textAreas.length; i++) {
-     
-     if(textAreas[i].attributes[0].nodeValue===currentTime) {
-          $(textAreas[i]).attr("class", "present");
-    };
-
-    if(textAreas[i].attributes[0].nodeValue > currentTime) {
-          $(textAreas[i]).attr("class", "past");
-     };
-
-     if(textAreas[i].attributes[0].nodeValue < currentTime) {
-          $(textAreas[i]).attr("class", "future");
-     };
-      //not sure why this makes my col-8 look like a col-2
+//checking time, comparing current time to schedule time slots
+function pageLoad() {
+     $("#currentDay").append(strDate);
+     for(let i=9; i<=17; i++){
+          checkTime([i]);
+     }
+     function checkTime(x) {
+          if (currentMilTime < x) {
+               $("#" + x + "time").addClass("future");
+          } else if (currentMilTime > x) {
+               $("#" + x + "time").addClass("past");
+          } else {
+               $("#" + x + "time").addClass("present");
+          }
+     }
 }
 
-
-//loop for saving textArea input when clicked
-$("button").click(function()){
-for (i=0; i<buttons.length; i++) {
-     if(buttons[i]){};
+//to do list storage
+function todoText(x) {
+     for (let i=0; i<storageArr.length; i++) {
+          $("#" + x + "time").text(storageArr[i]);
+          x++;
+     }
 }
-});
-     //if id of save button is clicked, save that text area's content to local storage
+
+//to do list population from storage
+function populate() {
+     storageArr=[];
+}
+
+$("button").click(function() {
+     populate();
+     for (let i=0; i< ($("textarea").length); i++) {
+          storageArr.push($("textarea")[i].value);
+     }
+     localStorage.setItem("user", JSON.stringify(storageArr))
+})
 
 
 
-//if(textAreas[i].attributes[0].nodeValue === (moment().format("ha"))) {
-          //console.log("true")
-          //(textArea+i).attr("class","past")
-     //} from underneath the loop with aslan
 
-
-//if current time < block time, color = green
-//if current time = block time, color = red
-//if current time > block tim, coloe = grey
-
-//to save to local storage... localStorage.setItem("todo", textArea[i].textContent)
